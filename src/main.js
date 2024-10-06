@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 
 import './assets/base.css'
-import './assets/scss/main.scss'
+// import './assets/scss/main.scss'
 
 const app = createApp(App)
 
