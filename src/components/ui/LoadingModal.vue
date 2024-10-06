@@ -48,7 +48,7 @@ p  {
     background: linear-gradient(110deg, #bcbcbc 8%, #d5d5d5 18%, #bcbcbc 33%);
     border-radius: 5px;
     background-size: 200% 100%;
-    animation: 1.5s shine linear infinite;
+    @include shine;
 }
 
 .section-container {
@@ -115,11 +115,4 @@ p  {
         }
     }
 }
-
-@keyframes shine {
-  to {
-    background-position-x: -200%;
-  }
-}
-
 </style>

@@ -70,7 +70,7 @@ const closeModal = ()=>{
                 }
             }
 
-            @media (max-width: $tablet){
+            @include respond-to(tablet) {
                 width: 90%;
             }
         }
@@ -114,8 +114,12 @@ const closeModal = ()=>{
                 }
             }
 
-            @media (max-width: $tablet){
+            @include respond-to(tablet) {
                 width: 85%;
+            }
+
+            @include respond-to(mobile) {
+                width: 90%;
             }
         }
 

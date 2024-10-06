@@ -131,8 +131,7 @@ onMounted(()=>{
 
     .header-items {
         display: flex;
-        flex-direction: column; /* Adjust direction if needed */
-        // align-items: center;
+        flex-direction: column;
         width: 70%;
 
         .search-box {
@@ -149,8 +148,8 @@ onMounted(()=>{
                 align-items: center;
 
                 &svg {
-                    width: 24px; /* Adjust width as needed */
-                    height: auto; /* Maintain aspect ratio */
+                    width: 24px;
+                    height: auto; 
                 }
             }
 
@@ -202,7 +201,7 @@ onMounted(()=>{
             }
         }
 
-        @media (max-width: $tablet){
+        @include respond-to(tablet) {
           width: 90%;
         }
     }
@@ -230,23 +229,22 @@ onMounted(()=>{
         top: -3rem;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        // grid-template-rows: 1fr 0.5fr 1fr;
         grid-auto-rows: 10px;
         gap: 0.5rem;
         
 
          .grid-item:nth-child(odd) {
-            grid-row-end: span 20; /* Spans more rows for odd items */
+            grid-row-end: span 20;
         }
         .grid-item:nth-child(even) {
-            grid-row-end: span 30; /* Spans more rows for even items */
+            grid-row-end: span 30;
         }
 
-        @media (max-width: $tablet){
+        @include respond-to(tablet) {
           width: 85%;
         }
 
-        @media (max-width: $mobile){
+        @include respond-to(mobile) {
           grid-template-columns: 1fr;
         }
     }

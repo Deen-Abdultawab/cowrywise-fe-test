@@ -7,6 +7,33 @@ $primary-text: #3a4b6b;
 $secondary-text: #5c7198;
 $mobile: 700px;
 $tablet: 1000px;
+$desktop: 1024px;
+
+@mixin shine {
+    animation: 1.5s shine linear infinite;
+  }
+  
+  @keyframes shine {
+    to {
+      background-position-x: -200%;
+    }
+  }
+
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == mobile {
+      @media (max-width: $mobile) {
+        @content;
+      }
+    } @else if $breakpoint == tablet {
+      @media (max-width: $tablet) {
+        @content;
+      }
+    } @else if $breakpoint == desktop {
+      @media (max-width: $desktop) {
+        @content;
+      }
+    }
+  }
 
 body {
     font-family: $font-stack;
