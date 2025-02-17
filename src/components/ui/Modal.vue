@@ -8,7 +8,7 @@
     <div class=modal>
         <div class="modal-body">
             <div class="modal-image">
-                <img :src="props?.item?.urls?.full" alt="">
+                <img :src="props?.item?.urls?.raw" alt="">
             </div>
             <div class="modal-info">
                 <h3>{{ props?.item?.user?.name }}</h3>

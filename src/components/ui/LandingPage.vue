@@ -107,8 +107,10 @@ const handleShowModal = async (id)=>{
   try {
     await photoStore.getPhoto(id)
     console.log(photo.value)
-    isLoadingModal.value = false
-    showModal.value = true
+    setTimeout(() => {
+      isLoadingModal.value = false
+      showModal.value = true
+    }, 1000);
   } catch (error) {
     console.log(error)
     isLoadingModal.value = false
@@ -117,7 +119,7 @@ const handleShowModal = async (id)=>{
 
 onMounted(()=>{
   getPhotos()
-  console.log(showModal.value, isLoadingModal.value)
+  console.log(photo.value)
 })
 
 </script>
