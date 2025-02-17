@@ -1,18 +1,22 @@
 <template>
   <section class="container">
     <header class="header">
-        <div class="header-items">
-            <div class="search-box" v-if="searchHeader">
-              <searchIcon class="icon"/>
-              <input type="text" name="" id="" placeholder="Search for photo" v-model="searchInput" @keyup.enter="handleSearch"
-              >
-              <span v-if="showError">Search field is empty</span>
-            </div>
-            <div class="result-box" v-else>
-              <h1>Search Results for <span>"{{ searchInput }}"</span></h1>
-              <cancelIcon class="cancel-icon" @click="closeSearch"/>
-            </div>
+      <div class="header-items">
+        <div class="search-box" v-if="searchHeader">
+          <searchIcon class="icon" />
+          <input
+            type="text"
+            placeholder="Search for photo"
+            v-model="searchInput"
+            @keyup.enter="handleSearch"
+          />
+          <span v-if="showError">Search field is empty</span>
         </div>
+        <div class="result-box" v-else>
+          <h1>Search Results for <span>"{{ searchInput }}"</span></h1>
+          <cancelIcon class="cancel-icon" @click="closeSearch" />
+        </div>
+      </div>
     </header>
     <div class="image-container">
       <div class="no-result" v-if="searchedPhotos?.results?.length < 1">
@@ -20,7 +24,7 @@
       </div>
       <div class="grid-container" v-else>
         <ImageCard
-        v-if="!isLoading"
+          v-if="!isLoading"
           v-for="(photos, index) in searchedPhotos?.results?.slice(0, 7)"
           :key="photos.id"
           :item="photos"
@@ -28,7 +32,8 @@
           class="grid-item"
           @showModal="handleShowModal"
         />
-        <LoadingCards v-else
+        <LoadingCards
+          v-else
           v-for="item in ['1', '2', '3', '4', '6', '7']"
           class="grid-item"
           :key="item"
@@ -36,13 +41,17 @@
       </div>
     </div>
 
-    <Modal 
-      @close="closeModal"
-      class="modal"
-      v-if="showModal && !isLoadingModal"
-      :item="photo"
-    />
-    <LoadingModal v-if="isLoadingModal"/>
+    <!-- Modal and LoadingModal -->
+    <transition name="fade">
+      <LoadingModal v-if="isLoadingModal" />
+    </transition>
+    <transition name="fade">
+      <Modal
+        v-if="showModal && !isLoadingModal"
+        @close="closeModal"
+        :item="photo"
+      />
+    </transition>
   </section>
 </template>
 
@@ -57,216 +66,206 @@ import Modal from '@/components/ui/Modal.vue';
 import LoadingModal from '@/components/ui/LoadingModal.vue';
 import cancelIcon from '@/components/icons/cancelIcon.vue';
 
-const photoStore = usePhotoStore()
-const { searchedPhotos, photo } = storeToRefs(photoStore)
-const isLoading = ref(false)
-const searchInput = ref('')
-const showError = ref(false)
-const searchHeader = ref(true)
-const showModal = ref(false)
-const isLoadingModal = ref(false)
+const photoStore = usePhotoStore();
+const { searchedPhotos, photo } = storeToRefs(photoStore);
+const isLoading = ref(false);
+const searchInput = ref('');
+const showError = ref(false);
+const searchHeader = ref(true);
+const showModal = ref(false);
+const isLoadingModal = ref(false);
 
-const getPhotos = async ()=>{
-  isLoading.value = true
+const getPhotos = async () => {
+  isLoading.value = true;
   try {
-    await photoStore.getSearchedPhotos('african')
-    isLoading.value = false
+    await photoStore.getSearchedPhotos('african');
+    isLoading.value = false;
   } catch (error) {
-    console.log(error)
-    isLoading.value = false
+    console.log(error);
+    isLoading.value = false;
   }
-}
+};
 
 const handleSearch = async () => {
-  isLoading.value = true
+  isLoading.value = true;
   if (searchInput.value?.length > 0) {
     await photoStore.getSearchedPhotos(searchInput.value);
-    isLoading.value = false
-    searchHeader.value = false
+    isLoading.value = false;
+    searchHeader.value = false;
   } else {
     showError.value = true;
     setTimeout(() => {
-      showError.value = false; 
+      showError.value = false;
     }, 2000);
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
-const closeSearch = async ()=>{
-  await getPhotos()
-  searchInput.value = ''
-  searchHeader.value = true
-}
+const closeSearch = async () => {
+  await getPhotos();
+  searchInput.value = '';
+  searchHeader.value = true;
+};
 
-const closeModal = ()=>{
-  showModal.value = false
-}
+const closeModal = () => {
+  showModal.value = false;
+};
 
-const handleShowModal = async (id)=>{
-  isLoadingModal.value = true
+const handleShowModal = async (id) => {
+  isLoadingModal.value = true;
   try {
-    await photoStore.getPhoto(id)
-    console.log(photo.value)
+    await photoStore.getPhoto(id);
     setTimeout(() => {
-      isLoadingModal.value = false
-      showModal.value = true
-    }, 1000);
+      isLoadingModal.value = false;
+      showModal.value = true;
+    }, 1000); // Simulate loading delay
   } catch (error) {
-    console.log(error)
-    isLoadingModal.value = false
+    console.log(error);
+    isLoadingModal.value = false;
   }
-}
+};
 
-onMounted(()=>{
-  getPhotos()
-  console.log(photo.value)
-})
-
+onMounted(() => {
+  getPhotos();
+});
 </script>
 
 <style lang="scss" scoped>
-  .modal {
-    opacity: -1;
-    z-index: -1;
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 .header {
-    width: 100%;
-    padding: 6rem 0;
-    background: $bgColor;
+  width: 100%;
+  padding: 6rem 0;
+  background: $bgColor;
+  display: flex;
+  justify-content: center;
+  font-family: $font-stack;
+
+  .header-items {
     display: flex;
-    justify-content: center;
-    font-family: $font-stack;
+    flex-direction: column;
+    width: 70%;
 
-    .header-items {
+    .search-box {
+      display: flex;
+      align-self: center;
+      align-items: center;
+      background: white;
+      padding: 1rem;
+      width: 100%;
+      border-radius: 10px;
+
+      .icon {
         display: flex;
-        flex-direction: column;
-        width: 70%;
+        align-items: center;
 
-        .search-box {
-            display: flex;
-            align-self: center;
-            align-items: center;
-            background: white;
-            padding: 1rem;
-            width: 100%;
-            border-radius: 10px;
+        &svg {
+          width: 24px;
+          height: auto;
+        }
+      }
 
-            .icon {
-                display: flex;
-                align-items: center;
+      span {
+        color: red;
+        font-size: 0.7rem;
+        margin-top: 0.7rem;
+      }
 
-                &svg {
-                    width: 24px;
-                    height: auto; 
-                }
-            }
+      input {
+        margin-left: 8px;
+        font-family: $font-stack;
+        color: $primary-text;
+        background: inherit;
+        border: none;
+        flex: 1;
 
-            span {
-              color: red;
-              font-size: 0.7rem;
-              margin-top: 0.7rem;
-            }
-
-            input {
-                margin-left: 8px; 
-                font-family: $font-stack;
-                color: $primary-text;
-                background: inherit;
-                border: none;
-                flex: 1;
-
-                &::placeholder {
-                    color: $primary-text;
-                }
-
-                &:focus {
-                    outline: none;
-                }
-            }
+        &::placeholder {
+          color: $primary-text;
         }
 
-        .result-box {
-            font-family: $font-stack;
-            color: $primary-text;
-            font-size: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            @media (max-width: $mobile){
-              font-size: 0.8rem;
-            }
-
-            span {
-                color: $secondary-text;
-            }
-
-            .cancel-icon {
-              width: 2.5rem;
-              height: 2.5rem;
-              color: $primary-text !important;
-              cursor: pointer;
-            }
+        &:focus {
+          outline: none;
         }
-
-        @include respond-to(tablet) {
-          width: 90%;
-        }
+      }
     }
+
+    .result-box {
+      font-family: $font-stack;
+      color: $primary-text;
+      font-size: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @media (max-width: $mobile) {
+        font-size: 0.8rem;
+      }
+
+      span {
+        color: $secondary-text;
+      }
+
+      .cancel-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: $primary-text !important;
+        cursor: pointer;
+      }
+    }
+
+    @include respond-to(tablet) {
+      width: 90%;
+    }
+  }
 }
 
 .image-container {
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 
-    .no-result {
-      display: grid;
-      place-items: center;
-      width: 60%;
-      height: 100%;
+  .no-result {
+    display: grid;
+    place-items: center;
+    width: 60%;
+    height: 100%;
+  }
+
+  .grid-container {
+    padding-bottom: 4rem;
+    width: 60%;
+    margin: 0 auto;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 10px;
+    gap: 0.5rem;
+
+    .grid-item:nth-child(odd) {
+      grid-row-end: span 20;
+    }
+    .grid-item:nth-child(even) {
+      grid-row-end: span 30;
     }
 
-    .grid-container {
-        padding-bottom: 4rem;
-        width: 60%;
-        margin: 0 auto;
-        height: auto;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: -3rem;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 10px;
-        gap: 0.5rem;
-        
-
-         .grid-item:nth-child(odd) {
-            grid-row-end: span 20;
-        }
-        .grid-item:nth-child(even) {
-            grid-row-end: span 30;
-        }
-
-        @include respond-to(tablet) {
-          width: 85%;
-        }
-
-        @include respond-to(mobile) {
-          grid-template-columns: 1fr;
-        }
+    @include respond-to(tablet) {
+      width: 85%;
     }
-}
 
-.modal {
-  opacity: 0;
-  z-index: -1;
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
 }
-
-.showModal {
-  opacity: 1;
-  z-index: 1;
-}
-
 </style>

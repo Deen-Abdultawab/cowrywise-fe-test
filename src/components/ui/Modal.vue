@@ -1,27 +1,29 @@
 <template>
+  <transition name="fade">
     <div class="overlay">
-    </div>
-   <section class="section-container">
-       <div class="modal-toggle">
-           <cancelIcon class="close-icon" @click="closeModal"/>
+      <section class="section-container" :class="isVisible? 'show': 'hide'">
+          <div class="modal-toggle">
+              <cancelIcon class="close-icon" @click="closeModal"/>
+          </div>
+       <div class=modal>
+           <div class="modal-body">
+               <div class="modal-image">
+                   <img :src="props?.item?.urls?.raw" alt="">
+               </div>
+               <div class="modal-info">
+                   <h3>{{ props?.item?.user?.name }}</h3>
+                   <p>{{ props?.item?.user?.location }}</p>
+               </div>
+           </div>
        </div>
-    <div class=modal>
-        <div class="modal-body">
-            <div class="modal-image">
-                <img :src="props?.item?.urls?.raw" alt="">
-            </div>
-            <div class="modal-info">
-                <h3>{{ props?.item?.user?.name }}</h3>
-                <p>{{ props?.item?.user?.location }}</p>
-            </div>
-        </div>
+      </section>
     </div>
-   </section>
+  </transition>
 </template>
 
 <script setup>
 import cancelIcon from '@/components/icons/cancelIcon.vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const emit = defineEmits(['close'])
 const props = defineProps(['item'])
@@ -30,11 +32,6 @@ const isVisible = ref(false)
 const closeModal = ()=>{
     emit('close')
 }
-
-onMounted(()=>{
-  isVisible.value = true
-  console.log(isVisible)
-})
 
 </script>
 
