@@ -46,11 +46,11 @@
       </div>
     </transition>
     <transition name="fade">
-      <LoadingModal v-show="showModal && isLoadingModal" />
+      <LoadingModal v-if="showModal && isLoadingModal" />
     </transition>
     <transition name="fade">
       <Modal
-        v-show="showModal && !isLoadingModal"
+        v-if="showModal && !isLoadingModal"
         @close="closeModal"
         :item="photo"
       />
