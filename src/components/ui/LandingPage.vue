@@ -20,7 +20,7 @@
     </header>
     <div class="image-container">
       <div class="no-result" v-if="searchedPhotos?.results?.length < 1">
-        <h3>Oops!! Your research returned no items this time</h3>
+        <h3>Oops!! Your search returned no items this time</h3>
       </div>
       <div class="grid-container" v-else>
         <ImageCard
@@ -41,13 +41,16 @@
       </div>
     </div>
 
-    <!-- Modal and LoadingModal -->
     <transition name="fade">
-      <LoadingModal v-if="isLoadingModal" />
+      <div class="overlay" v-if="showModal">
+      </div>
+    </transition>
+    <transition name="fade">
+      <LoadingModal v-show="showModal && isLoadingModal" />
     </transition>
     <transition name="fade">
       <Modal
-        v-if="showModal && !isLoadingModal"
+        v-show="showModal && !isLoadingModal"
         @close="closeModal"
         :item="photo"
       />
@@ -113,17 +116,19 @@ const closeModal = () => {
 
 const handleShowModal = async (id) => {
   isLoadingModal.value = true;
+  showModal.value = true;
   try {
     await photoStore.getPhoto(id);
     setTimeout(() => {
       isLoadingModal.value = false;
       showModal.value = true;
-    }, 1000); // Simulate loading delay
+    }, 1000);
   } catch (error) {
     console.log(error);
     isLoadingModal.value = false;
   }
 };
+
 
 onMounted(() => {
   getPhotos();
@@ -234,8 +239,9 @@ onMounted(() => {
   .no-result {
     display: grid;
     place-items: center;
-    width: 60%;
-    height: 100%;
+    width: 100%;
+    height: 50vh;
+    text-align: center;
   }
 
   .grid-container {

@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-      <div class="overlay">
+      <div class="">
         <section class="section-container" >
           <div class="modal">
             <div class="modal-body">
@@ -21,16 +21,6 @@
   </script>
   
   <style lang="scss" scoped>
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: rgba(72, 68, 68, 0.5);
-    backdrop-filter: blur(10px);
-  }
-  
   .section-container {
     position: fixed;
     top: 0;

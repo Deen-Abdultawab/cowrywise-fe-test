@@ -1,7 +1,7 @@
 <template>
     <section class="image-card" @click="showModal(props?.item?.id)">
         <div class="image-card__container">
-            <img :src="props?.item?.urls?.regular" alt="" loading="lazy">
+            <img :src="props?.item?.urls?.regular" alt="" loading="eager">
         </div>
         <div class="image-card__info">
             <h3>{{ props?.item?.user?.name }}</h3>

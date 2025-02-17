@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="overlay">
+    <div class="">
       <section class="section-container" :class="isVisible? 'show': 'hide'">
           <div class="modal-toggle">
               <cancelIcon class="close-icon" @click="closeModal"/>
@@ -8,7 +8,7 @@
        <div class=modal>
            <div class="modal-body">
                <div class="modal-image">
-                   <img :src="props?.item?.urls?.raw" alt="">
+                   <img :src="props?.item?.urls?.regular" alt="">
                </div>
                <div class="modal-info">
                    <h3>{{ props?.item?.user?.name }}</h3>
@@ -36,16 +36,6 @@ const closeModal = ()=>{
 </script>
 
 <style lang="scss" scoped>
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100vh;
-  background: rgba(72, 68, 68, 0.5);
-  backdrop-filter: blur(10px);
-}
-
 .section-container {
   position: fixed;
   top: 0;
@@ -105,7 +95,7 @@ const closeModal = ()=>{
         img {
           width: 100%;
           height: 100%;
-          object-fit: cover; /* Ensure image covers the area */
+          object-fit: cover;
         }
       }
 
