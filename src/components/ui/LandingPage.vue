@@ -35,8 +35,10 @@
         />
       </div>
     </div>
+
     <Modal 
-      @close="closeModal" 
+      @close="closeModal"
+      class="modal"
       v-if="showModal && !isLoadingModal"
       :item="photo"
     />
@@ -115,11 +117,16 @@ const handleShowModal = async (id)=>{
 
 onMounted(()=>{
   getPhotos()
+  console.log(showModal.value, isLoadingModal.value)
 })
 
 </script>
 
 <style lang="scss" scoped>
+  .modal {
+    opacity: -1;
+    z-index: -1;
+  }
 
 .header {
     width: 100%;

@@ -3,9 +3,6 @@
     </div>
    <section class="section-container">
     <div class=modal>
-        <div class="modal-toggle">
-            <cancelIcon class="close-icon" @click="closeModal"/>
-        </div>
         <div class="modal-body">
             <div class="modal-image">
                 <!-- <img :src="props?.item?.urls?.full" alt=""> -->
@@ -20,7 +17,6 @@
 </template>
 
 <script setup>
-import cancelIcon from '@/components/icons/cancelIcon.vue';
 
 const emit = defineEmits(['close'])
 
@@ -52,21 +48,28 @@ p  {
 }
 
 .section-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     min-height: 100vh;
+    display: grid;
+    place-items: center;
 
     .modal {
-        margin: 4rem 0;
-        height: 80vh;
+        height: 90vh;
+        width: 80%;
+        max-width: 1200px; 
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
 
         .modal-toggle {
             display: flex;
-            justify-content: end;
-            margin: 0.5rem auto;
-            width: 80%;
+            justify-content: flex-end;
+            padding: 0.5rem;
 
             .close-icon {
                 width: 2.5rem;
@@ -81,27 +84,23 @@ p  {
         }
 
         .modal-body {
-            width: 70%;
-            margin: 0 auto;
-            height: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
 
             .modal-image {
-                width: 100%;
-                height: 100%;
-                border-top-left-radius: 12px;
-                border-top-right-radius: 12px;
+                flex: 1;
                 overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
     
             .modal-info {
-                width: 100%;
-                padding: 2rem;
+                padding: 1.5rem;
                 background: white;
-                border-bottom-left-radius: 12px;
-                border-bottom-right-radius: 12px;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
+                border-top: 1px solid #e0e0e0;
     
                 h3 {
                     height: 2rem;
